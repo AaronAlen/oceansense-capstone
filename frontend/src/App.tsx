@@ -35,9 +35,11 @@ import { SecurityCenterPage } from './pages/SecurityCenterPage';
 import { TacticalAnalyticsPage } from './pages/TacticalAnalyticsPage';
 import { AIAssistantPage } from './pages/AIAssistantPage';
 import { SubscriberMobilePage } from './pages/SubscriberMobilePage';
+import { RawPingDigitalTwinPage } from './pages/RawPingDigitalTwinPage';
 
 export type NavPage =
   | 'OPERATIONS_CENTER'
+  | 'RAW_PING_TWIN'
   | 'DEPLOYMENT_PLAN'
   | 'NETWORK_TOPOLOGY'
   | 'CHARGING_STATIONS'
@@ -402,6 +404,14 @@ export default function App() {
               onClick={() => setActivePage('OPERATIONS_CENTER')}
             />
             <NavItem
+              icon={<Radio size={16} />}
+              label="Raw Ping 3D Twin"
+              badge="WS Live"
+              color="var(--color-electric-cyan)"
+              active={activePage === 'RAW_PING_TWIN'}
+              onClick={() => setActivePage('RAW_PING_TWIN')}
+            />
+            <NavItem
               icon={<Grid size={16} />}
               label="Deployment Grid"
               badge="100 km²"
@@ -481,6 +491,7 @@ export default function App() {
           backgroundColor: 'var(--color-page-bg)',
         }}>
           {activePage === 'OPERATIONS_CENTER' && <OperationsCenter />}
+          {activePage === 'RAW_PING_TWIN' && <RawPingDigitalTwinPage />}
           {activePage === 'DEPLOYMENT_PLAN' && <DeploymentPage />}
           {activePage === 'NETWORK_TOPOLOGY' && <NetworkTopologyPage />}
           {activePage === 'CHARGING_STATIONS' && <ChargingStationsPage />}
