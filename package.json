@@ -1,0 +1,31 @@
+{
+  "name": "oceansense-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OceanSense — Underwater Sonar Digital Twin & Ocean Intelligence Platform",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "keywords": [
+    "digital-twin",
+    "sonar",
+    "ocean-intelligence",
+    "threejs",
+    "postgresql",
+    "websockets"
+  ],
+  "author": "OceanSense Engineering Team",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

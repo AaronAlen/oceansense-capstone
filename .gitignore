@@ -1,0 +1,55 @@
+# Dependencies (Root, Frontend, Backend)
+node_modules/
+**/node_modules/
+
+# Environment Variables & Secrets (CRITICAL: Do NOT commit secrets)
+.env
+.env.*
+!.env.example
+!.env.*.example
+!sample.env
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.*.example
+!**/sample.env
+
+# Build Outputs & Bundles
+dist/
+**/dist/
+build/
+**/build/
+.next/
+out/
+
+# Logs & Debug
+*.log
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Operating System & Editor Files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Testing & Coverage
+coverage/
+**/coverage/
+.nyc_output/
+
+# Temporary & Cache Directories
+.cache/
+.temp/
+tmp/
+.tempmediaStorage/
+**/.system_generated/

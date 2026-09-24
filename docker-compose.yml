@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: oceansense_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Aaron123@}
+      POSTGRES_DB: ${POSTGRES_DB:-oceansense_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/migrations/001_initial_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./database/migrations/002_indexes_and_performance.sql:/docker-entrypoint-initdb.d/02_indexes.sql:ro
+      - ./database/migrations/003_views_and_procedures.sql:/docker-entrypoint-initdb.d/03_views.sql:ro
+      - ./database/migrations/004_triggers_and_audit.sql:/docker-entrypoint-initdb.d/04_triggers.sql:ro
+      - ./database/seeds/seed_initial_data.sql:/docker-entrypoint-initdb.d/05_seeds.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d oceansense_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - oceansense_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: oceansense_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    networks:
+      - oceansense_net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: oceansense_backend
+    restart: unless-stopped
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:Aaron123%40@postgres:5432/oceansense_db}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      JWT_SECRET: ${JWT_SECRET:-oceansense_tactical_jwt_secret_token_98472910384}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-rzp_live_oceansense_prod}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-rzp_live_secret_sample}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER:-}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-alerts@oceansense.io}
+      SIMULATION_DEFAULT_NODES: 1000
+      SIMULATION_AREA_KM: 10
+      SIMULATION_TICK_HZ: 60
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - oceansense_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: oceansense_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - oceansense_net
+
+volumes:
+  pgdata:
+  redisdata:
+
+networks:
+  oceansense_net:
+    driver: bridge

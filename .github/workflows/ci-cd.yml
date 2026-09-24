@@ -1,0 +1,150 @@
+name: OceanSense CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Monorepo Dependencies
+        run: npm ci
+
+      - name: Backend Typecheck
+        working-directory: ./backend
+        run: npx tsc --noEmit
+
+      - name: Frontend Typecheck & Build
+        working-directory: ./frontend
+        run: npm run build
+
+  automated-domain-tests:
+    name: Automated Domain & Simulation Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Domain & AI Tools Test Suite
+        working-directory: ./backend
+        run: npx tsx tests/simulation_and_ai.test.ts
+
+  docker-build-verification:
+    name: Docker Container Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: false
+          tags: oceansense-backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Frontend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: false
+          tags: oceansense-frontend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-aws-free-tier:
+    name: Deploy to AWS Free Tier (ap-south-1)
+    needs: [lint-and-typecheck, automated-domain-tests, docker-build-verification]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Verify AWS Identity & Caller
+        run: |
+          aws sts get-caller-identity
+
+      - name: Run AWS Deployment Script
+        run: |
+          chmod +x ./scripts/deploy-aws.sh
+          ./scripts/deploy-aws.sh
+
+  deploy-gcp-cloud-run:
+    name: Deploy to Google Cloud Run (GCP)
+    needs: [lint-and-typecheck, automated-domain-tests, docker-build-verification]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        if: env.HAS_GCP_SECRET == 'true'
+        env:
+          HAS_GCP_SECRET: ${{ secrets.GCP_SA_KEY != '' }}
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        if: env.HAS_GCP_SECRET == 'true'
+        env:
+          HAS_GCP_SECRET: ${{ secrets.GCP_SA_KEY != '' }}
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for GCP
+        if: env.HAS_GCP_SECRET == 'true'
+        env:
+          HAS_GCP_SECRET: ${{ secrets.GCP_SA_KEY != '' }}
+        run: gcloud auth configure-docker --quiet
+
+      - name: Deploy Backend to Cloud Run
+        if: env.HAS_GCP_SECRET == 'true'
+        env:
+          HAS_GCP_SECRET: ${{ secrets.GCP_SA_KEY != '' }}
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/oceansense-backend:${{ github.sha }} ./backend
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/oceansense-backend:${{ github.sha }}
+          gcloud run deploy oceansense-backend \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/oceansense-backend:${{ github.sha }} \
+            --region ${{ secrets.GCP_REGION || 'asia-south1' }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 5000 \
+            --set-env-vars NODE_ENV=production,RAZORPAY_KEY_ID=${{ secrets.RAZORPAY_KEY_ID }}

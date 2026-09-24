@@ -1,0 +1,157 @@
+/* ==========================================================================
+   OceanSense Tactical Ocean Design System
+   Base: Abyssal Deep (#070B12), Surface Navy (#0B1320), Slate Border (#1E293B)
+   Accents: Electric Cyan (#00F2FE), Aquamarine (#00E699), Amber (#FFB703), Crimson (#FF3B30)
+   ========================================================================== */
+
+:root, [data-theme='dark'] {
+  --color-abyssal-deep: #070B12;
+  --color-surface-navy: #0B1320;
+  --color-slate-card: #0F172A;
+  --color-slate-border: #1E293B;
+  --color-slate-hover: #334155;
+  
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #64748B;
+  --color-page-bg: #070B14;
+
+  --color-electric-cyan: #00F2FE;
+  --color-aquamarine: #00E699;
+  --color-amber-warning: #FFB703;
+  --color-crimson-alert: #FF3B30;
+  --color-biomass-magenta: #F72585;
+  --color-neon-gold: #FFD166;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
+}
+
+[data-theme='light'] {
+  --color-abyssal-deep: #F1F5F9;
+  --color-surface-navy: #FFFFFF;
+  --color-slate-card: #F8FAFC;
+  --color-slate-border: #CBD5E1;
+  --color-slate-hover: #E2E8F0;
+  
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748B;
+  --color-page-bg: #F8FAFC;
+
+  --color-electric-cyan: #0284C7;
+  --color-aquamarine: #059669;
+  --color-amber-warning: #D97706;
+  --color-crimson-alert: #DC2626;
+  --color-biomass-magenta: #C026D3;
+  --color-neon-gold: #CA8A04;
+}
+
+[data-theme='grayish'] {
+  --color-abyssal-deep: #1E293B;
+  --color-surface-navy: #334155;
+  --color-slate-card: #1E293B;
+  --color-slate-border: #475569;
+  --color-slate-hover: #64748B;
+  
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #E2E8F0;
+  --color-text-muted: #94A3B8;
+  --color-page-bg: #0F172A;
+
+  --color-electric-cyan: #38BDF8;
+  --color-aquamarine: #34D399;
+  --color-amber-warning: #FBBF24;
+  --color-crimson-alert: #F87171;
+  --color-biomass-magenta: #E879F9;
+  --color-neon-gold: #FDE047;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-abyssal-deep);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Monospace telemetry styles */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Glassmorphic Tactical HUD Panels */
+.hud-panel {
+  background: var(--color-surface-navy);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-slate-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+}
+
+.hud-panel-glow-cyan {
+  border-color: rgba(0, 242, 254, 0.3);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+}
+
+.hud-panel-glow-crimson {
+  border-color: rgba(255, 59, 48, 0.4);
+  box-shadow: 0 0 20px rgba(255, 59, 48, 0.25);
+}
+
+/* Custom Tactical Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-abyssal-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-slate-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-electric-cyan);
+}
+
+/* Pulsing radar pings */
+@keyframes ping-radar {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 242, 254, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 242, 254, 0);
+  }
+}
+
+.animate-radar-ping {
+  animation: ping-radar 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes pulse-crimson {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-pulse-crimson {
+  animation: pulse-crimson 1s infinite ease-in-out;
+}

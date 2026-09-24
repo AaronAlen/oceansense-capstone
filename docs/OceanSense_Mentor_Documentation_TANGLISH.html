@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OceanSense — Capstone Project Comprehensive Mentor Documentation (Friendly Tanglish)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+    @page {
+      size: A4;
+      margin: 16mm 14mm 16mm 14mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'Inter', sans-serif;
+        font-size: 8.5pt;
+        color: #64748B;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #0F172A;
+      background: #FFFFFF;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+      font-size: 9.5pt;
+    }
+
+    .header-banner {
+      background: linear-gradient(135deg, #070F1E 0%, #0F2342 100%);
+      color: #FFFFFF;
+      padding: 22px 26px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #1E3A5F;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-cyan {
+      background: rgba(0, 242, 254, 0.15);
+      color: #00F2FE;
+      border: 1px solid rgba(0, 242, 254, 0.4);
+    }
+
+    .badge-magenta {
+      background: rgba(247, 37, 133, 0.15);
+      color: #F72585;
+      border: 1px solid rgba(247, 37, 133, 0.4);
+    }
+
+    .badge-green {
+      background: rgba(0, 230, 153, 0.15);
+      color: #00E699;
+      border: 1px solid rgba(0, 230, 153, 0.4);
+    }
+
+    .badge-amber {
+      background: rgba(255, 183, 3, 0.15);
+      color: #FFB703;
+      border: 1px solid rgba(255, 183, 3, 0.4);
+    }
+
+    h1.project-title {
+      font-size: 19pt;
+      font-weight: 800;
+      margin: 0 0 6px 0;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+    }
+
+    p.project-subtitle {
+      font-size: 10pt;
+      color: #94A3B8;
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 8pt;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .meta-item span.label {
+      color: #64748B;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .meta-item span.value {
+      color: #E2E8F0;
+      font-weight: 600;
+    }
+
+    h2.section-title {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #0B192C;
+      border-left: 4px solid #0284C7;
+      padding-left: 10px;
+      margin: 20px 0 10px 0;
+      letter-spacing: -0.2px;
+      page-break-after: avoid;
+    }
+
+    h3.subsection-title {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #1E293B;
+      margin: 12px 0 6px 0;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 8px 0;
+      color: #334155;
+    }
+
+    .figure-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 8px;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+
+    .figure-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      border: 1px solid #CBD5E1;
+      display: block;
+    }
+
+    .figure-caption {
+      font-size: 7.5pt;
+      font-weight: 600;
+      color: #475569;
+      margin-top: 5px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .two-col-figures {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px 0;
+      font-size: 8pt;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #0F172A;
+      color: #FFFFFF;
+      font-weight: 600;
+      text-align: left;
+      padding: 7px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      border: 1px solid #0F172A;
+    }
+
+    td {
+      padding: 6px 8px;
+      border: 1px solid #E2E8F0;
+      color: #334155;
+      vertical-align: middle;
+    }
+
+    tr:nth-child(even) td {
+      background: #F8FAFC;
+    }
+
+    tr.highlight-row td {
+      background: #EFF6FF;
+      font-weight: 700;
+      color: #0369A1;
+    }
+
+    .callout {
+      background: #F0FDF4;
+      border-left: 4px solid #16A34A;
+      padding: 9px 12px;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 8.5pt;
+      color: #166534;
+      page-break-inside: avoid;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .callout-blue {
+      background: #F0F9FF;
+      border-left: 4px solid #0284C7;
+      color: #075985;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin: 8px 0 12px 0;
+      page-break-inside: avoid;
+    }
+
+    .card {
+      border: 1px solid #E2E8F0;
+      background: #FAFAFA;
+      padding: 8px 10px;
+      border-radius: 6px;
+    }
+
+    .card h4 {
+      margin: 0 0 3px 0;
+      font-size: 8.5pt;
+      color: #0F172A;
+      font-weight: 700;
+    }
+
+    .card p {
+      font-size: 7.5pt;
+      margin: 0;
+      color: #64748B;
+      line-height: 1.35;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .step-box {
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 7px 10px;
+      margin-bottom: 7px;
+      background: #FFFFFF;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      page-break-inside: avoid;
+    }
+
+    .step-num {
+      background: #0284C7;
+      color: #FFF;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 7.5pt;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      font-size: 8pt;
+    }
+
+    .step-content strong {
+      color: #0F172A;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: #E2E8F0;
+      color: #334155;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: HEADER & EXECUTIVE SUMMARY -->
+  <div class="header-banner">
+    <div class="badge-row">
+      <span class="badge badge-cyan">GWC DATA.AI CAPSTONE 2026</span>
+      <span class="badge badge-magenta">12-WEEK FULL STACK INTERNSHIP</span>
+      <span class="badge badge-green">LIVE VERIFIED</span>
+      <span class="badge badge-amber">PATENTABLE HARDWARE</span>
+    </div>
+    <h1 class="project-title">OceanSense: Tactical Sonar Digital Twin</h1>
+    <p class="project-subtitle">Subsea Acoustic Sensor Mesh, Digital Twin & Fisherman Telemetry System (Friendly Tanglish Guide)</p>
+    
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="label">PROGRAM</span>
+        <span class="value">GWC Full Stack Developer</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">CURRICULUM</span>
+        <span class="value">Week 1-12 Comprehensive</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">TECH STACK</span>
+        <span class="value">React, TS, Node, Postgres, WS</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">FISHERMAN PROFIT</span>
+        <span class="value">₹34,000/mo Diesel Micham</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">1. Enna Intha Project? (Project Overview & Screenshots)</h2>
+  <p>
+    <strong>OceanSense</strong> oru **Autonomous Underwater Acoustic Monitoring System & Real-Time 3D Digital Twin**. Namma GWC DATA.AI Full Stack Developer Internship-la 12 weeks padicha comprehensive technical stack-ah use panni, kadalukulla floating sonar buoys (nodes) moolama meen kootangal (Tuna, Mackerel, Sardine, Trevally) enga irukku, evlo depth-la irukku, and endha direction-la swim aaguthunu live-ah detect panra system.
+  </p>
+  <p>
+    Intha live data-va Operations Center Desktop screen-kum, kadalula pora meenavargaloda mobile phone-kum (2D Radar & 3D Twin) millisecond-to-millisecond sync panni transmit pannuvom.
+  </p>
+
+  <div class="figure-card">
+    <img src="assets/desktop_3d_twin.png" alt="Operations Center 3D Digital Twin">
+    <div class="figure-caption">Figure 1.1: Operations Center 3D Digital Twin — 10km × 10km Calibrated Sector with 4 Sonar Buoys and Live Swimming Fish Schools</div>
+  </div>
+
+  <div class="two-col-figures">
+    <div class="figure-card">
+      <img src="assets/mobile_3d_twin.png" alt="Commercial Fisherman Mobile 3D Twin">
+      <div class="figure-caption">Figure 1.2: Mobile 3D Client — Boat "NORDIC RUNNER" Escorting Tuna Cluster with Live Net Depth Advisory</div>
+    </div>
+    <div class="figure-card">
+      <img src="assets/mobile_radar.png" alt="Mobile 2D Tactical Radar">
+      <div class="figure-caption">Figure 1.3: Dynamic 2D Radar Scope — Synchronized with Real-Time 3D Swimming Orbits</div>
+    </div>
+  </div>
+
+  <!-- PAGE BREAK -->
+  <div class="page-break"></div>
+
+  <h2 class="section-title">2. Internship Curriculum: 12 Weeks Padichadha Epdi Project-la Implement Pannirukkom?</h2>
+  <p>
+    Official <strong>GWC DATA.AI 12-Week Full Stack Training Roadmap</strong> (480 Hours) concepts ovvondrum OceanSense-la exact-ah implement aagirukku:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 14%;">Internship Week</th>
+        <th style="width: 28%;">Syllabus-la Padicha Topics</th>
+        <th style="width: 58%;">OceanSense Capstone Project-la Epdi Implement Pannom?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Week 1<br><span class="tag">HTML & CSS</span></strong></td>
+        <td>HTML5 semantic elements, forms, accessibility, CSS3 flexbox & grid, transitions/animations, mobile-first responsive design, BEM/CSS modules.</td>
+        <td>Semantic layout (<code>&lt;nav&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;canvas&gt;</code>), multi-theme tokens (Daylight, Night Abyssal, Technical Gray), tactical glassmorphism HUD overlays, and responsive mobile container design.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 2<br><span class="tag">React Framework</span></strong></td>
+        <td>Components, props, state management, hooks (<code>useState</code>, <code>useEffect</code>, <code>useRef</code>, <code>useMemo</code>, <code>useCallback</code>), component lifecycle, controlled forms.</td>
+        <td>Modular React UI with throttled 400ms HUD update cycles (preventing 60fps re-render thrashing), modal workflows (<code>FishermanSubscriptionModal</code>), and dynamic cluster listings.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 3<br><span class="tag">Dev Tools</span></strong></td>
+        <td>Tailwind CSS utility framework, Git branching & merge conflicts, GitHub PRs/issues, Postman API collections, Chrome DevTools debugging.</td>
+        <td>Git feature branching (<code>feat/3d-simulation-sync</code>), structured commits, Postman API test collections for node ingestion, and Chrome DevTools performance memory profiling.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 4<br><span class="tag">Backend & Realtime</span></strong></td>
+        <td>RESTful API architecture, HTTP methods, Fetch API, async/await, WebSocket protocol for bidirectional real-time communication, Appwrite/BaaS CRUD.</td>
+        <td>Full-duplex WebSocket client/server architecture (<code>wsClient</code>) streaming real-time acoustic pings and node status broadcasts without HTTP polling overhead.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 5<br><span class="tag">Node.js Backend</span></strong></td>
+        <td>Node.js runtime, event-driven architecture, NPM packages, Express.js routing, middleware architecture, error handling, CORS, security headers.</td>
+        <td>High-throughput Express.js backend with controller-service architecture, structured error handling middleware, request validation, and Node.js EventEmitters for sonar events.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 6<br><span class="tag">Security & DB</span></strong></td>
+        <td>Auth vs Authorization, JWT tokens, refresh strategies, Bcrypt password hashing, custom middleware, RBAC; Relational DB (MySQL/Postgres) design, normalization, ACID transactions.</td>
+        <td>JWT authentication with multi-tenant RBAC (<code>SUBSCRIBER</code> vs <code>OPERATOR</code> vs <code>ADMIN</code>), password salting, and 3NF relational PostgreSQL schema with ACID transaction isolation.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 7<br><span class="tag">Full Stack App</span></strong></td>
+        <td>Full stack project structure, frontend-backend integration, state management, protected routes, file uploads, Swagger/OpenAPI docs, logging strategies.</td>
+        <td>Integrated React frontend with Node/Postgres backend, protected subscription views, centralized error boundary logging, and unified environment configuration (<code>sample.env</code>).</td>
+      </tr>
+      <tr>
+        <td><strong>Week 8<br><span class="tag">TypeScript & State</span></strong></td>
+        <td>TypeScript fundamentals (interfaces, generics, type aliases), React with TypeScript, Redux Toolkit / Zustand store slices, actions, and type safety.</td>
+        <td>End-to-end type safety using TypeScript interfaces (<code>FishSchoolData</code>, <code>LiveFishCluster</code>), and Zustand global stores (<code>useFishSchoolStore</code>, <code>useAuthStore</code>, <code>useThemeStore</code>).</td>
+      </tr>
+      <tr>
+        <td><strong>Week 9<br><span class="tag">BI & Data Viz</span></strong></td>
+        <td>Business Intelligence principles, KPI frameworks, Domo platform dashboard design, interactive charts, ETL processes, data storytelling.</td>
+        <td>Tactical Analytics Dashboard with rolling Sonar Waterfall Echogram (Figure 3.1), 360° PPI radar scope with 40s phosphor persistence, and economic catch valuation cards.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 10<br><span class="tag">Advanced Database</span></strong></td>
+        <td>Complex SQL joins, subqueries, CTEs, window functions (<code>ROW_NUMBER</code>, <code>RANK</code>), stored procedures, triggers, views, query optimization (<code>EXPLAIN</code>), indexing, migrations.</td>
+        <td>PostgreSQL migrations (<code>001_initial_schema.sql</code> to <code>004_triggers_and_audit.sql</code>), spatial coordinate queries, automated audit triggers, B-tree indexes, and seed scripts.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 11<br><span class="tag">DevOps & Production</span></strong></td>
+        <td>Docker containerization, Docker Compose, CI/CD with GitHub Actions, application monitoring, production security (Helmet, rate limits, SQLi/XSS defense), Vite bundling.</td>
+        <td>Containerized multi-service architecture via Docker Compose, automated CI/CD pipeline (<code>.github/workflows/ci-cd.yml</code>), Helmet headers, and production Vite minification.</td>
+      </tr>
+      <tr>
+        <td><strong>Week 12<br><span class="tag">Capstone Defense</span></strong></td>
+        <td>Comprehensive capstone integration, technical architecture presentation, hardware testing scripts, monetization strategy, and code review defense.</td>
+        <td>Unified WebGL 3D Digital Twin (Three.js), external hardware testing harness (<code>external_sonar_transmitter.py</code>), unit economic models, and professional mentor documentation.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- PAGE BREAK -->
+  <div class="page-break"></div>
+
+  <h2 class="section-title">3. Ocean Engineering: Vala Sikkuradha Thavirkavum, Padagu Modhinalum Thappikkavum Enna Design?</h2>
+  <p>
+    Mentor kekkum mukkiyamaana kelvi: <em>"Kadalula buoy node podradhaala matha meenavargal valai (nets) sikkura prechanai varuma? Oruvela spedd-ah vara boat node mela modhitta enna aagum?"</em>
+    OceanSense-la idhukaagave specialized maritime hardware engineering pannirukkom:
+  </p>
+
+  <div class="grid-4">
+    <div class="card">
+      <h4>🪢 1. Slick Anti-Snag Torpedo Spar Hull</h4>
+      <p>Buoy-oda surface ultra-smooth High-Density Polyethylene (HDPE) Teflon coating-la irukkum. Velila entha hooks, brackets, or kambi kooda irukkadhu. Drifting gillnets and valai ropes sikkama smooth-ah slip aagi poirum.</p>
+    </div>
+    <div class="card">
+      <h4>⚓ 2. Taut Low-Diameter Armored Mooring</h4>
+      <p>Kadalula loose-ah floating ropes pottal thaan valai sikkum. Namma vertically-taut stainless steel synthetic jacket cable use panrom. Thanni kulla idhoda cross-section verum 8mm thaan, so valai matturadhuku vaaippe illa.</p>
+    </div>
+    <div class="card">
+      <h4>🤿 3. Deep Subsurface Sensor Pod (>15m)</h4>
+      <p>Surface-la verum chinna float antenna mattum thaan irukkum. Main acoustic sensor pod kadalukulla <strong>15 meters aazhathula</strong> thongum. Meenavargaloda surface driftnets (0–8m depth) namma node-ku mela smooth-ah poirum.</p>
+    </div>
+    <div class="card">
+      <h4>📡 4. Acoustic Pinger & Virtual AIS AtoN Marker</h4>
+      <p>Node 35 kHz sound pulses anuppi boats-oda fishfinder-la hazard alert kaatum. Koodave marine AIS signal anuppi boat GPS chartplotter-la red warning circle kaatum.</p>
+    </div>
+  </div>
+
+  <h3 class="subsection-title">Padagu Modhinaa Namma Node Epdi Thappikkum? (Collision Avoidance)</h3>
+
+  <div class="step-box">
+    <div class="step-num">MECHANISM 1</div>
+    <div class="step-content">
+      <strong>Self-Righting "Duck-Under" Elastomer Keel:</strong>
+      Spar buoy-la heavy 30kg low-center-of-gravity ballast keel irukkum. Edhavadhu boat bow modhinaa, buoy 90° bend aagi boat-ku keezha muzhugi (dive aagi) poirum. Boat thaandina odaney positive buoyancy moolama thirumba straight-ah ninnudum. Boat propeller-kum damage aagadhu, node-kum damage aagadhu!
+    </div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">MECHANISM 2</div>
+    <div class="step-content">
+      <strong>Unsinkable Closed-Cell Polyurethane Foam Core:</strong>
+      50-ton periya steel trawler modhinaalum buoy muzhugave muzhugadhu. Interior muzhukka pressurized closed-cell marine foam irukradhaala, fracture aanaalum 0% buoyancy loss.
+    </div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">MECHANISM 3</div>
+    <div class="step-content">
+      <strong>Circular Propeller Deflector Cage:</strong>
+      Melirukkra antenna mast-ah suthi 316L stainless steel deflector ring irukradhaala, boat propeller blades and ropes antenna or sealing ring mela thakkama velila glide aagi thallidum.
+    </div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">MECHANISM 4</div>
+    <div class="step-content">
+      <strong>High-Visibility IALA Yellow & 360° Amber Strobe:</strong>
+      International maritime standard-padi Day-Glo yellow paint, internal passive X-band radar reflector (4 nautical miles thoorathulaye ship radar-la theriyum), and night-time solar amber strobe LED flashes every 4s.
+    </div>
+  </div>
+
+  <h3 class="subsection-title">3D Engineering Blueprints & Realistic Simulation Scenarios</h3>
+  <p>
+    Kadalula namma node epdi survive aaguthu, boat collision, driftnet gliding, internal x-ray seals, and data telemetry epdi operate aaguthunu photorealistic CAD & 3D WebGL physics-la verify pannirukkom:
+  </p>
+
+  <div class="two-col-figures">
+    <div class="figure-card">
+      <img src="assets/node_boat_collision.jpg" alt="Scenario 1: Boat Collision & Propeller Duck-Under">
+      <div class="figure-caption">Figure 3.1: Scenario 1 — Boat Collision & Propeller Avoidance (90° Duck-Under Elastomer Keel)</div>
+    </div>
+    <div class="figure-card">
+      <img src="assets/node_net_defense.jpg" alt="Scenario 2: Commercial Net Entanglement Defense">
+      <div class="figure-caption">Figure 3.2: Scenario 2 — Commercial Gillnet Sliding Smoothly over Slick Teflon HDPE Spar</div>
+    </div>
+  </div>
+
+  <div class="two-col-figures">
+    <div class="figure-card">
+      <img src="assets/node_underwater_architecture.jpg" alt="Scenario 3: Vertical 35m Underwater Architecture">
+      <div class="figure-caption">Figure 3.3: Scenario 3 — Full Vertical Architecture: Surface Spar, 15m Sonar Pod, & 35m Sinker Anchor</div>
+    </div>
+    <div class="figure-card">
+      <img src="assets/node_internal_cutaway.jpg" alt="Scenario 4: Internal Engineering X-Ray Cutaway">
+      <div class="figure-caption">Figure 3.4: Scenario 4 — Internal Cutaway: LiFePO4 Battery, ESP32 DSP Brain, Dual Viton O-Rings & Zinc Anodes</div>
+    </div>
+  </div>
+
+  <div class="two-col-figures">
+    <div class="figure-card">
+      <img src="assets/node_data_uplink.jpg" alt="Scenario 5: Acoustic to Cloud Data Uplink">
+      <div class="figure-caption">Figure 3.5: Scenario 5 — Data Uplink: 15m Hydrophone Pings → FFT Edge Compression → LoRaWAN/4G Cloud Beam</div>
+    </div>
+    <div class="figure-card">
+      <img src="assets/fisherman_mobile_at_sea.jpg" alt="Scenario 6: Fisherman Mobile Downlink at Sea">
+      <div class="figure-caption">Figure 3.6: Scenario 6 — Mobile Downlink: Fisherman on Boat Receiving Live Fish Coordinates & 3D Twin</div>
+    </div>
+  </div>
+
+  <div class="two-col-figures">
+    <div class="figure-card">
+      <img src="assets/node_physics_studio_recording.webp" alt="3D WebGL Simulation Studio Recording">
+      <div class="figure-caption">Figure 3.7: Live 3D WebGL Physics Simulation Studio (Interactive In-App Physics Engine)</div>
+    </div>
+    <div class="figure-card">
+      <img src="assets/sonar_waterfall.png" alt="Live Sonar Echogram Waterfall">
+      <div class="figure-caption">Figure 3.8: Tactical Sonar Waterfall Echogram & 360° PPI Radar Scope Display</div>
+    </div>
+  </div>
+
+  <!-- PAGE BREAK -->
+  <div class="page-break"></div>
+
+  <h2 class="section-title">4. Comprehensive Financial Model: 3-Year Income Statement (P&L)</h2>
+  <p>
+    OceanSense high-margin recurring SaaS software + low-cost IoT hardware model-la run aaguradhaala EBITDA operating margin 61% to 78% varaikkum reach aagum:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Financial Metric (Moththa Panam INR-la)</th>
+        <th>Year 1 (Pilot + 1 Harbor)</th>
+        <th>Year 2 (3 Major Harbors)</th>
+        <th>Year 3 (Statewide Maritime Rollout)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Kadalula Irukra Active Nodes</strong></td>
+        <td>15 Nodes</td>
+        <td>60 Nodes</td>
+        <td>200 Nodes</td>
+      </tr>
+      <tr>
+        <td><strong>Paid Subscriber Boats</strong></td>
+        <td>250 Boats</td>
+        <td>1,200 Boats</td>
+        <td>4,500 Boats</td>
+      </tr>
+      <tr>
+        <td>Average Monthly Subscription Fee</td>
+        <td>₹1,499 / boat</td>
+        <td>₹1,499 / boat</td>
+        <td>₹1,499 / boat</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>Gross Subscription Revenue (ARR)</strong></td>
+        <td><strong>₹44,97,000</strong></td>
+        <td><strong>₹2,15,85,600</strong></td>
+        <td><strong>₹8,09,46,000</strong></td>
+      </tr>
+      <tr>
+        <td>Govt Security & Coastal Defense Grants</td>
+        <td>₹8,00,000</td>
+        <td>₹35,00,000</td>
+        <td>₹1,20,00,000</td>
+      </tr>
+      <tr>
+        <td>Marine Carbon Credit Offsets</td>
+        <td>₹1,50,000</td>
+        <td>₹12,00,000</td>
+        <td>₹48,00,000</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>TOTAL ANNUAL GROSS REVENUE</strong></td>
+        <td><strong>₹54,47,000</strong></td>
+        <td><strong>₹2,62,85,600</strong></td>
+        <td><strong>₹9,77,46,000</strong></td>
+      </tr>
+      <tr>
+        <td colspan="4" style="background: #E2E8F0; font-weight: 700; color: #0F172A;">Cost of Goods Sold (COGS) & Operating Expenses (OPEX):</td>
+      </tr>
+      <tr>
+        <td>Hardware Capex Depreciation & Mooring Spares</td>
+        <td>₹9,60,000</td>
+        <td>₹28,80,000</td>
+        <td>₹84,00,000</td>
+      </tr>
+      <tr>
+        <td>Cellular SIMs, LoRaWAN & Satellite Bandwidth</td>
+        <td>₹1,80,000</td>
+        <td>₹7,20,000</td>
+        <td>₹24,00,000</td>
+      </tr>
+      <tr>
+        <td>Cloud Infrastructure (AWS Postgres, VPS, WS)</td>
+        <td>₹1,20,000</td>
+        <td>₹4,50,000</td>
+        <td>₹15,00,000</td>
+      </tr>
+      <tr>
+        <td>Harbor Maintenance Boat Charter (Quarterly)</td>
+        <td>₹2,40,000</td>
+        <td>₹9,60,000</td>
+        <td>₹32,00,000</td>
+      </tr>
+      <tr>
+        <td>Customer Support & Ground Field Staff</td>
+        <td>₹6,00,000</td>
+        <td>₹18,00,000</td>
+        <td>₹54,00,000</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>TOTAL OPERATING EXPENSES (OPEX)</strong></td>
+        <td><strong>₹21,00,000</strong></td>
+        <td><strong>₹68,10,000</strong></td>
+        <td><strong>₹2,09,00,000</strong></td>
+      </tr>
+      <tr style="background: #DCFCE7; font-weight: 800; font-size: 8.5pt;">
+        <td style="color: #166534;"><strong>NET EBITDA (OPERATING PROFIT)</strong></td>
+        <td style="color: #166534;"><strong>+₹33,47,000</strong></td>
+        <td style="color: #166534;"><strong>+₹1,94,75,600</strong></td>
+        <td style="color: #166534;"><strong>+₹7,68,46,000</strong></td>
+      </tr>
+      <tr style="background: #F0FDF4; font-weight: 700;">
+        <td style="color: #15803D;"><strong>EBITDA OPERATING MARGIN (%)</strong></td>
+        <td style="color: #15803D;"><strong>61.4% Margin</strong></td>
+        <td style="color: #15803D;"><strong>74.1% Margin</strong></td>
+        <td style="color: #15803D;"><strong>78.6% Margin</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-title">5. Anti-Theft Protection: Thiruttula Irundhu Epdi Safe? (5 Tiers)</h2>
+  <div class="step-box">
+    <div class="step-num">TIER 1</div>
+    <div class="step-content"><strong>GPS Geofence Breach:</strong> Node 30 meters-ku mela drag aanaa instant-ah Cloud SOS alarm adikkum.</div>
+  </div>
+  <div class="step-box">
+    <div class="step-num">TIER 2</div>
+    <div class="step-content"><strong>6-Axis Tilt & Motion Sensor:</strong> Node-ah boat deck-la thooki vechaalo illa aattinaalo vibration detect aagum.</div>
+  </div>
+  <div class="step-box">
+    <div class="step-num">TIER 3</div>
+    <div class="step-content"><strong>Anchor Tension Line Sensor:</strong> Anchor cable-ah cut pannina odaney continuous circuit break aagi SOS signal pogum.</div>
+  </div>
+  <div class="step-box">
+    <div class="step-num">TIER 4</div>
+    <div class="step-content"><strong>Subsurface Stealth Mooring:</strong> 85% value kadalukulla 8m aazhathula thongum, iravula theriyave theriyadhu.</div>
+  </div>
+  <div class="step-box">
+    <div class="step-num">TIER 5</div>
+    <div class="step-content"><strong>Automated GPS Recovery Beacon:</strong> Ovvoru 20s-kum live coordinates Coast Guard-ku anuppi recovery panna mudiyum.</div>
+  </div>
+
+  <h2 class="section-title">6. Kadaloda Saltiness & Uppu Thannila Namma Budget Node Evlo Naal Thaakku Pudikkum?</h2>
+  <p>
+    Mentor kekkum romba practical-aana kelvi: <em>"Namma budget-la senja indha node kadaloda bayangaramaana uppu thanni (35 PSU salinity), paasi, and rusting-ah evlo naal thaangum?"</em>
+    Namma kooduthalaana titanium use pannama, smart marine engineering materials use panradhaala indha node <strong>3 to 5 Years Operating Lifespan</strong> and <strong>12–18 Months Continuous In-Water Submersion</strong> thaakku pudikkum:
+  </p>
+
+  <div class="grid-4">
+    <div class="card">
+      <h4>🧪 1. 15-Year Virgin HDPE Polymer Body</h4>
+      <p>Buoy spar body UV-stabilized Virgin High-Density Polyethylene (HDPE)-la mold panniyirukkom. Irumbhu maari thuru pudikkaadhu, fiber maari odaadhu. Saline water-la 15 varushathukku mela chemically inert-ah irukkum.</p>
+    </div>
+    <div class="card">
+      <h4>⚡ 2. Sacrificial Zinc Anodes (Cathodic Protection)</h4>
+      <p>Node subsea pod-la rendu 1.5kg Zinc plates (verum ₹550/piece) potturukkom. Galvanic reaction-la namma 316 stainless steel bolts & transducer rust aagakoodathunu indha Zinc plate thaana dissolve aagi core parts-ah 18–24 months full-ah protect pannum.</p>
+    </div>
+    <div class="card">
+      <h4>🦪 3. Non-Toxic Foul-Release Silicone Coating</h4>
+      <p>Acoustic hydrophone face-la eco-friendly silicone foul-release gel potturukkom. Kadal paasi, shanku (barnacles) ethuvume otta mudiyadhu; kadal alai adikkumbodhe slip aagi wash aagirum. Sound signal clarity 100% maintain aagum.</p>
+    </div>
+    <div class="card">
+      <h4>🛡️ 4. Dual Viton O-Rings & Conformal PCB Seal</h4>
+      <p>Electronic chamber-la 10 Bar (100m aazham) pressure thaanga koodiya Double Viton O-rings irukku. Circuit boards mela MIL-I-46058C silicone coating irukradhaala coastal salt-fog moisture condensation aanaalum short circuit aagave aagadhu.</p>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Subsystem Component</th>
+        <th>Corrosion Protection Enna?</th>
+        <th>Kadalula Continuous Lifespan</th>
+        <th>Maintenance Eppo Pannanum?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Rotomolded Buoy Hull</strong></td>
+        <td>UV-stabilized Virgin HDPE Polymer</td>
+        <td>15+ Years (Thuru pudikkaadhu)</td>
+        <td>Thevaiyillai (Self-cleaning)</td>
+      </tr>
+      <tr>
+        <td><strong>Mooring Cable Tether</strong></td>
+        <td>316 Stainless Steel + Extruded Vinyl Jacket</td>
+        <td>4 – 5 Years</td>
+        <td>24 Months-la inspect pannanum</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>Cathodic Zinc Anodes</strong></td>
+        <td>Sacrificial Galvanic Oxidation (Metal-ah kaapaathum)</td>
+        <td><strong>18 – 24 Months</strong></td>
+        <td><strong>18 Months-ku orudhadava maathanum (₹1,100)</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Acoustic Transducer Face</strong></td>
+        <td>Cast Polyurethane + Silicone Foul-Release Gel</td>
+        <td>5 Years</td>
+        <td>12 Months-la surface clean</td>
+      </tr>
+      <tr>
+        <td><strong>Solar Power Module</strong></td>
+        <td>ETFE Marine Lamination (Salt immune)</td>
+        <td>5 – 7 Years (Uppu padiyaadhu)</td>
+        <td>12 Months-la water wash</td>
+      </tr>
+      <tr>
+        <td><strong>LiFePO4 Internal Battery</strong></td>
+        <td>Sealed Nitrogen-purged Dry Capsule (3,000 Cycles)</td>
+        <td>7 – 8 Years</td>
+        <td>Zero Maintenance</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-title">🏆 Mentor Presentation Summary Statement</div>
+    "OceanSense verum dummy UI project illa sir/madam. Idhu GWC DATA.AI 12-week roadmap-la padicha HTML/CSS, React, Node.js, WebSockets, PostgreSQL, Three.js, Docker, and DevOps ellaathaiyum real-world marine problem-ku use panni create panna comprehensive industrial capstone project. 5 varusham kadal uppu thanniyave thaangra high-durability hardware engineering idhula irukku. 6-avathu maasathulaye break-even aagi profitable aagum!"
+  </div>
+
+</body>
+</html>
